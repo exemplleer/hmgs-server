@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id          Int          @id(map: "pkRoom") @default(autoincrement())
+  num         String       @unique(map: "akRoomNum")
+  title       String       @db.VarChar(256)
+  price       Decimal      @db.Decimal(18, 2)
+  capacity    Int
+  createdAt   DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime     @default(now()) @db.Timestamp(6)
+  description String?      @default("")
+  roomStatus  RoomStatus[]
+}
+
+model RoomStatus {
+  id          Int      @id(map: "pkRoomStatus") @default(autoincrement())
+  roomId      Int
+  startDate   DateTime @db.Timestamp(6)
+  endDate     DateTime @db.Timestamp(6)
+  isAvailable Boolean  @default(false)
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fkRoomRoomStatus")
+}

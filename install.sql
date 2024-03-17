@@ -1,0 +1,5 @@
+CREATE USER hmgs_admin WITH PASSWORD 'password';
+
+CREATE DATABASE hmgs WITH OWNER hmgs_admin ENCODING 'UTF8';
+
+GRANT ALL ON DATABASE hmgs TO hmgs_admin;
